@@ -1,6 +1,7 @@
 const path = require('path')
 const express = require('express')
 const morgan = require('morgan')
+const methodOveride = require('method-override')
 const { engine } = require('express-handlebars')
 
 const app = express()
@@ -20,6 +21,8 @@ app.use(
 )
 app.use(express.json())
 
+app.use(methodOveride('_method'))
+
 //HTTP logger
 app.use(morgan('dev'))
 
@@ -28,6 +31,9 @@ app.engine(
   'hbs',
   engine({
     extname: '.hbs',
+    helpers: {
+      sum: (a, b) => a + b,
+    },
   })
 )
 
